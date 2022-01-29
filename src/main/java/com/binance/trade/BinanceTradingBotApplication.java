@@ -9,5 +9,4 @@ public class BinanceTradingBotApplication {
     public static void main(String[] args) {
         SpringApplication.run(BinanceTradingBotApplication.class, args);
     }
-
 }

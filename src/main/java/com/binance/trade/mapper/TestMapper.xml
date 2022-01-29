@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.binance.trade.mapper.TestMapper">
+    <select id="selectTest" resultType="com.binance.trade.model.TradeTest">
+        SELECT column_1,column_2 FROM trade.test
+    </select>
+</mapper>
