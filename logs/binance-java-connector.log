@@ -35,3 +35,36 @@ You may wish to exclude one of them to ensure predictable runtime behavior
 2022-01-24 17:32:58.360[1643013178360] | INFO  | main       | c.b.t.BinanceTradingBotApplicationTests - No active profile set, falling back to default profiles: default
 2022-01-24 17:32:58.743[1643013178743] | INFO  | main       | c.b.t.BinanceTradingBotApplicationTests - Started BinanceTradingBotApplicationTests in 0.587 seconds (JVM running for 1.4)
 2022-01-24 17:41:10.283[1643013670283] | INFO  | main       | c.b.c.client.utils.RequestHandler    - PUT http://localhost:55996//sapi/v1/userDataStream?listenKey=test
+2022-02-06 19:47:16.031[1644144436031] | INFO  | restartedMain | c.b.t.BinanceTradingBotApplication   - Starting BinanceTradingBotApplication using Java 17 on KANGui-iMac.local with PID 6389 (started by kanghyosung in /Users/kanghyosung/work/binance-trading-bot)
+2022-02-06 19:47:16.031[1644144436031] | INFO  | restartedMain | c.b.t.BinanceTradingBotApplication   - No active profile set, falling back to default profiles: default
+2022-02-06 19:47:16.115[1644144436115] | WARN  | restartedMain | o.m.s.mapper.ClassPathMapperScanner  - No MyBatis mapper was found in '[com.binance.trade]' package. Please check your configuration.
+2022-02-06 19:47:16.142[1644144436142] | INFO  | restartedMain | o.s.b.w.e.tomcat.TomcatWebServer     - Tomcat initialized with port(s): 8080 (http)
+2022-02-06 19:47:16.143[1644144436143] | INFO  | restartedMain | o.a.coyote.http11.Http11NioProtocol  - Initializing ProtocolHandler ["http-nio-8080"]
+2022-02-06 19:47:16.143[1644144436143] | INFO  | restartedMain | o.a.catalina.core.StandardService    - Starting service [Tomcat]
+2022-02-06 19:47:16.143[1644144436143] | INFO  | restartedMain | o.a.catalina.core.StandardEngine     - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-02-06 19:47:16.149[1644144436149] | INFO  | restartedMain | o.a.c.c.C.[Tomcat].[localhost].[/]   - Initializing Spring embedded WebApplicationContext
+2022-02-06 19:47:16.149[1644144436149] | INFO  | restartedMain | o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 116 ms
+2022-02-06 19:47:16.191[1644144436191] | WARN  | restartedMain | o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
+2022-02-06 19:47:16.191[1644144436191] | INFO  | restartedMain | o.a.catalina.core.StandardService    - Stopping service [Tomcat]
+2022-02-06 19:47:16.195[1644144436195] | INFO  | restartedMain | o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-02-06 19:47:16.204[1644144436204] | ERROR | restartedMain | o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+

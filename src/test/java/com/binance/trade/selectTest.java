@@ -19,6 +19,14 @@ public class selectTest {
 
     @Test
     void name2() {
+        System.out.println("!================ START ================!");
         testService.serviceTest2();
+        System.out.println("!================ END ================!");
+    }
+
+    @Test
+    void ethusdt() {
+        String response = testService.getTradeList("ETHUSDT");
+        System.out.println(response);
     }
 }
