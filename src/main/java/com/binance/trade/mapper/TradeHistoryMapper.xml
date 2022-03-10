@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.binance.trade.mapper.TradeHistoryMapper">
+    <select id="selectTradeHistory" resultType="com.binance.trade.model.TradeHistory">
+        SELECT
+            id,
+            price,
+            symbol,
+            qty,
+            quoteQty,
+            isBestMatch,
+            isBuyerMaker,
+            time
+        FROM bot.trade_history
+    </select>
+
+    <insert id="insertTradeHistory" parameterType="com.binance.trade.model.TradeHistory">
+        INSERT IGNORE INTO bot.trade_history (
+            tranId,
+            price,
+            symbol,
+            qty,
+            quoteQty,
+            isBestMatch,
+            isBuyerMaker,
+            time
+        )
+        VALUES (
+            #{tranId},
+            #{price},
+            #{symbol},
+            #{qty},
+            #{quoteQty},
+            #{isBestMatch},
+            #{isBuyerMaker},
+            #{time}
+        )
+    </insert>
+</mapper>
