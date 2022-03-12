@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.binance.trade.mapper.TradeConclusionMapper">
+    <select id="selectTradeConclusion" resultType="com.binance.trade.model.TradeConclusion">
+        SELECT
+            `id`,
+            `symbol`,
+            `signal`,
+            `min`,
+            `max`,
+            `avg`,
+            `count`,
+            `second`,
+            `trade_at`
+        FROM bot.trade_conclusion
+    </select>
+
+    <select id="selectTradeConclusionLatest" resultType="com.binance.trade.model.TradeConclusion">
+        SELECT
+            `id`,
+            `symbol`,
+            `signal`,
+            `min`,
+            `max`,
+            `avg`,
+            `count`,
+            `second`,
+            `trade_at`
+        FROM bot.trade_conclusion order by `id` desc limit 1;
+    </select>
+
+    <insert id="insertTradeConclusion" parameterType="com.binance.trade.model.TradeConclusion">
+        INSERT INTO bot.trade_conclusion (
+            `symbol`,
+            `signal`,
+            `min`,
+            `max`,
+            `avg`,
+            `count`,
+            `second`,
+            `trade_at`
+        )
+        VALUES (
+            #{symbol},
+            #{signal},
+            #{min},
+            #{max},
+            #{avg},
+            #{count},
+            #{second},
+            #{trade_at}
+        )
+    </insert>
+</mapper>

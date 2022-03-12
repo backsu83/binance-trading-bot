@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
+
 @Component
 public class TradeHistorySchdule {
 
@@ -14,6 +16,11 @@ public class TradeHistorySchdule {
 
     @Scheduled(fixedDelay = 1000)
     public void schduleTradeHistroy() {
-        tradeHistoryService.getTradeList("ETHUSDT");
+        tradeHistoryService.tradehistroy("ETHUSDT");
+    }
+
+    @Scheduled(fixedDelay = 3000)
+    public void schduleTradeConclusion() {
+        tradeHistoryService.tradeConclusion("ETHUSDT" , Calendar.SECOND , -3);
     }
 }

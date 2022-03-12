@@ -8,6 +8,7 @@
     <select id="selectTradeHistory" resultType="com.binance.trade.model.TradeHistory">
         SELECT
             id,
+            tranId,
             price,
             symbol,
             qty,
@@ -15,7 +16,10 @@
             isBestMatch,
             isBuyerMaker,
             time
-        FROM bot.trade_history
+        FROM bot.trade_history WHERE 1=1
+        <![CDATA[
+        AND time >= #{start} AND time <= #{end}
+        ]]>
     </select>
 
     <insert id="insertTradeHistory" parameterType="com.binance.trade.model.TradeHistory">
