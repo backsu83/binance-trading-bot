@@ -1,0 +1,48 @@
+create table if not exists trade_conclusion
+(
+	id bigint auto_increment
+		primary key,
+	symbol varchar(20) null,
+	signal varchar(20) null,
+	min decimal(16,8) null,
+	max decimal(16,8) null,
+	avg decimal(16,8) null,
+	count int null,
+	second int null,
+	trade_at datetime null
+)
+;
+
+-- auto-generated definition
+create table trade_history_eth
+(
+  id           bigint auto_increment
+    primary key,
+  symbol       varchar(20)    not null,
+  tranId       bigint         null,
+  price        decimal(16, 8) not null,
+  qty          decimal(16, 8) not null,
+  quoteQty     decimal(16, 8) not null,
+  isBuyerMaker tinyint(1)     null,
+  isBestMatch  tinyint(1)     null,
+  time         bigint         null,
+  constraint trade_history_tranId_uindex
+  unique (tranId)
+);
+
+create table trade_history_btc
+(
+  id           bigint auto_increment
+    primary key,
+  symbol       varchar(20)    not null,
+  tranId       bigint         null,
+  price        decimal(16, 8) not null,
+  qty          decimal(16, 8) not null,
+  quoteQty     decimal(16, 8) not null,
+  isBuyerMaker tinyint(1)     null,
+  isBestMatch  tinyint(1)     null,
+  time         bigint         null,
+  constraint trade_history_tranId_uindex
+  unique (tranId)
+);
+

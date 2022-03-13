@@ -10,6 +10,9 @@ import java.util.List;
 public interface TradeHistoryMapper {
 
 //    List<TradeHistory> selectTradeHistory();
-    List<TradeHistory> selectTradeHistory(@Param("start") long start , @Param("end") long end);
-    int insertTradeHistory(TradeHistory tradeHistory);
+    List<TradeHistory> selectTradeHistoryETH(@Param("start") long start , @Param("end") long end);
+    int insertTradeHistoryETH(TradeHistory tradeHistory);
+    List<TradeHistory> selectTradeHistoryBTC(@Param("start") long start , @Param("end") long end);
+    int insertTradeHistoryBTC(TradeHistory tradeHistory);
+
 }

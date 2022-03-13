@@ -3,6 +3,8 @@ package com.binance.trade;
 import com.binance.trade.client.enums.TimeUtils;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,6 +57,16 @@ public class TimeStampTest {
         cal.add(Calendar.MONTH, -12);
         timestamp = new Timestamp(cal.getTime().getTime());
         System.out.println(timestamp.getTime());
+    }
+
+    @Test
+    void name() {
+
+        BigDecimal bigDecimal = new BigDecimal(18135.52000000);
+
+        BigDecimal divide = bigDecimal.divide(new BigDecimal(2), 8 , RoundingMode.HALF_DOWN);
+        System.out.println(divide);
+
     }
 }
 

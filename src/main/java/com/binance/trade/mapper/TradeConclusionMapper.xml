@@ -30,7 +30,9 @@
             `count`,
             `second`,
             `trade_at`
-        FROM bot.trade_conclusion order by `id` desc limit 1;
+        FROM bot.trade_conclusion
+        WHERE #{symbol}
+        order by `id` desc limit 1;
     </select>
 
     <insert id="insertTradeConclusion" parameterType="com.binance.trade.model.TradeConclusion">

@@ -2,6 +2,7 @@ package com.binance.trade.service;
 
 
 import com.binance.connector.client.impl.SpotClientImpl;
+import com.binance.trade.client.enums.CoinSymbols;
 import com.binance.trade.client.enums.TimeUtils;
 import com.binance.trade.mapper.TradeConclusionMapper;
 import com.binance.trade.mapper.TradeHistoryMapper;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,12 +35,12 @@ public class TradeHistoryService {
 
     public void tradehistroy(String symbol) {
         List<TradeHistory> tradeList = getTradeListByBinance(symbol);
-        saveTradeHistroy(tradeList);
+        saveTradeHistroy(symbol , tradeList);
     }
 
     public void tradeConclusion(String symbol , int type , int second) {
 
-        List<TradeHistory> tradeListRange = getTradeListRange(type, second);
+        List<TradeHistory> tradeListRange = getTradeListRange(symbol, type, second);
         //체결데이터 카운터
         long count = tradeListRange.stream().count();
         if(count < 1) {
@@ -53,18 +55,25 @@ public class TradeHistoryService {
 
         //최소값,최대값,평균 구하기
         List<TradeHistory> collects = tradeListRange.stream()
-                .sorted(Comparator.comparing(TradeHistory::getTime))
+                .sorted(Comparator.comparing(TradeHistory::getPrice))
                 .collect(Collectors.toList());
 
+//        int count = 0;
         for (TradeHistory collect : collects) {
             if(minPrice == null) {
                 minPrice = collect.getPrice();
             }
             maxPrice = collect.getPrice();
         }
-        avgPrice = minPrice.add(maxPrice).divide(new BigDecimal(2));
 
-        TradeConclusion tradeConclusion = tradeConclusionMapper.selectTradeConclusionLatest();
+        BigDecimal sum = collects
+                .stream()
+                .map(x -> x.getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        avgPrice = sum.divide(new BigDecimal(count), 8 , RoundingMode.HALF_DOWN);
+
+        TradeConclusion tradeConclusion = tradeConclusionMapper.selectTradeConclusionLatest(symbol);
         if(!ObjectUtils.isEmpty(tradeConclusion)) {
             if(tradeConclusion.getAvg().compareTo(avgPrice) < 0) {
                 signal = "UP";
@@ -77,7 +86,7 @@ public class TradeHistoryService {
         }
 
         TradeConclusion conclusion = TradeConclusion.builder()
-                .symbol("ETHUSDT")
+                .symbol(symbol)
                 .signal(signal)
                 .second(Math.abs(second))
                 .min(minPrice)
@@ -106,19 +115,29 @@ public class TradeHistoryService {
         return tradeHistorys;
     }
 
-    public List<TradeHistory> getTradeListRange(int type , int second) {
+    public List<TradeHistory> getTradeListRange(String symbol, int type , int second) {
         long end = TimeUtils.getCurrentTimestamp();
         long start = TimeUtils.getTimestampRange(type , second);
+        List<TradeHistory> tradeHistories = new ArrayList<>();
 
-        List<TradeHistory> tradeHistories = tradeHistoryMapper.selectTradeHistory(start , end);
+        if(symbol.equals(CoinSymbols.ETHUSDT.name())) {
+            tradeHistories = tradeHistoryMapper.selectTradeHistoryETH(start , end);
+        } else if(symbol.equals(CoinSymbols.BTCUSDT.name())) {
+            tradeHistories = tradeHistoryMapper.selectTradeHistoryBTC(start , end);
+        }
         return tradeHistories;
     }
 
-    public void saveTradeHistroy(List<TradeHistory> tradeHistorys) {
+    public void saveTradeHistroy(String symbol, List<TradeHistory> tradeHistorys) {
         for (TradeHistory tradeHistory : tradeHistorys) {
-            tradeHistory.setSymbol("ETHUSDT");
+            tradeHistory.setSymbol(symbol);
             tradeHistory.setTranId(tradeHistory.getId());
-            tradeHistoryMapper.insertTradeHistory(tradeHistory);
+
+            if(symbol.equals(CoinSymbols.ETHUSDT.name())) {
+                tradeHistoryMapper.insertTradeHistoryETH(tradeHistory);
+            } else if(symbol.equals(CoinSymbols.BTCUSDT.name())) {
+                tradeHistoryMapper.insertTradeHistoryBTC(tradeHistory);
+            }
         }
     }
 }

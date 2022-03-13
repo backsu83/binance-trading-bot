@@ -5,7 +5,7 @@
 
 
 <mapper namespace="com.binance.trade.mapper.TradeHistoryMapper">
-    <select id="selectTradeHistory" resultType="com.binance.trade.model.TradeHistory">
+    <select id="selectTradeHistoryETH" resultType="com.binance.trade.model.TradeHistory">
         SELECT
             id,
             tranId,
@@ -16,14 +16,54 @@
             isBestMatch,
             isBuyerMaker,
             time
-        FROM bot.trade_history WHERE 1=1
+        FROM bot.trade_history_eth WHERE 1=1
         <![CDATA[
         AND time >= #{start} AND time <= #{end}
         ]]>
     </select>
 
-    <insert id="insertTradeHistory" parameterType="com.binance.trade.model.TradeHistory">
-        INSERT IGNORE INTO bot.trade_history (
+    <insert id="insertTradeHistoryETH" parameterType="com.binance.trade.model.TradeHistory">
+        INSERT IGNORE INTO bot.trade_history_eth (
+            tranId,
+            price,
+            symbol,
+            qty,
+            quoteQty,
+            isBestMatch,
+            isBuyerMaker,
+            time
+        )
+        VALUES (
+            #{tranId},
+            #{price},
+            #{symbol},
+            #{qty},
+            #{quoteQty},
+            #{isBestMatch},
+            #{isBuyerMaker},
+            #{time}
+        )
+    </insert>
+
+    <select id="selectTradeHistoryBTC" resultType="com.binance.trade.model.TradeHistory">
+        SELECT
+            id,
+            tranId,
+            price,
+            symbol,
+            qty,
+            quoteQty,
+            isBestMatch,
+            isBuyerMaker,
+            time
+        FROM bot.trade_history_btc WHERE 1=1
+        <![CDATA[
+        AND time >= #{start} AND time <= #{end}
+        ]]>
+    </select>
+
+    <insert id="insertTradeHistoryBTC" parameterType="com.binance.trade.model.TradeHistory">
+        INSERT IGNORE INTO bot.trade_history_btc (
             tranId,
             price,
             symbol,
