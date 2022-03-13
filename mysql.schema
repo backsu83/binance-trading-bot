@@ -7,6 +7,7 @@ create table if not exists trade_conclusion
 	min decimal(16,8) null,
 	max decimal(16,8) null,
 	avg decimal(16,8) null,
+	dev decimal(16,8) null,
 	count int null,
 	second int null,
 	trade_at datetime null
