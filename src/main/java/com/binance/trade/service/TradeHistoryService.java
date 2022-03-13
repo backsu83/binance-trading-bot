@@ -83,10 +83,7 @@ public class TradeHistoryService {
                 logger.info(symbol + " 거래체결 평균값에 대한 변경이 없습니다.");
                 return;
             }
-        } else {
-            logger.info(symbol + " 마지막 거래체결 데이터 조회 실패했습니다.");
-            return;
-        }
+        } 
 
         TradeConclusion conclusion = TradeConclusion.builder()
                 .symbol(symbol)
