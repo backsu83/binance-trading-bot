@@ -19,6 +19,7 @@ public class TradeHistorySchdule {
     public void schduleTradeHistroyETH() {
         tradeHistoryService.tradehistroy(CoinSymbols.BTCUSDT);
         tradeHistoryService.tradehistroy(CoinSymbols.ETHUSDT);
+        tradeHistoryService.tradehistroy(CoinSymbols.SANDUSDT);
     }
 
     @Scheduled(fixedDelay = 3000)
@@ -30,6 +31,7 @@ public class TradeHistorySchdule {
     public void schduleTradeConclusionETHBy10() {
         tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -10);
         tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT , Calendar.SECOND , -10);
+        tradeHistoryService.tradeConclusion(CoinSymbols.SANDUSDT , Calendar.SECOND , -10);
     }
 
 }
