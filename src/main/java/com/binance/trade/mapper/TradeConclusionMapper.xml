@@ -31,7 +31,7 @@
             `second`,
             `trade_at`
         FROM bot.trade_conclusion
-        WHERE #{symbol}
+        WHERE symbol = #{symbol}
         order by `id` desc limit 1;
     </select>
 
