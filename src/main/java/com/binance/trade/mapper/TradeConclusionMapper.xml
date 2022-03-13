@@ -13,6 +13,7 @@
             `min`,
             `max`,
             `avg`,
+            `dev`,
             `count`,
             `second`,
             `trade_at`
@@ -27,6 +28,7 @@
             `min`,
             `max`,
             `avg`,
+            `dev`,
             `count`,
             `second`,
             `trade_at`
@@ -42,6 +44,7 @@
             `min`,
             `max`,
             `avg`,
+            `dev`,
             `count`,
             `second`,
             `trade_at`
@@ -52,6 +55,7 @@
             #{min},
             #{max},
             #{avg},
+            #{dev},
             #{count},
             #{second},
             #{trade_at}

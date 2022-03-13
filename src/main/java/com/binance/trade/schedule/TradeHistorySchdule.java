@@ -17,28 +17,19 @@ public class TradeHistorySchdule {
 
     @Scheduled(fixedDelay = 1000)
     public void schduleTradeHistroyETH() {
-        tradeHistoryService.tradehistroy(CoinSymbols.ETHUSDT.name());
+        tradeHistoryService.tradehistroy(CoinSymbols.BTCUSDT);
+        tradeHistoryService.tradehistroy(CoinSymbols.ETHUSDT);
     }
-
-    @Scheduled(fixedDelay = 1000)
-    public void schduleTradeHistroyBTC() {
-        tradeHistoryService.tradehistroy(CoinSymbols.BTCUSDT.name());
-    }
-
 
     @Scheduled(fixedDelay = 3000)
     public void schduleTradeConclusionETHBy3() {
-        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT.name() , Calendar.SECOND , -3);
+        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -3);
     }
 
     @Scheduled(fixedDelay = 10000)
     public void schduleTradeConclusionETHBy10() {
-        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT.name() , Calendar.SECOND , -10);
-    }
-
-    @Scheduled(fixedDelay = 10000)
-    public void schduleTradeConclusionBTCBy10() {
-        tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT.name() , Calendar.SECOND , -10);
+        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -10);
+        tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT , Calendar.SECOND , -10);
     }
 
 }

@@ -18,6 +18,7 @@ public class TradeHistory {
     private BigInteger tranId;
     private BigDecimal price;
     private String symbol;
+    private String tag;
     private BigDecimal qty;
     private BigDecimal quoteQty;
     private Boolean isBuyerMaker;

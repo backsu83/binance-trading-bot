@@ -33,14 +33,14 @@ public class TradeHistoryService {
 
     private static final Logger logger = LoggerFactory.getLogger(TradeHistoryService.class);
 
-    public void tradehistroy(String symbol) {
-        List<TradeHistory> tradeList = getTradeListByBinance(symbol);
+    public void tradehistroy(CoinSymbols symbol) {
+        List<TradeHistory> tradeList = getTradeListByBinance(symbol.name());
         saveTradeHistroy(symbol , tradeList);
     }
 
-    public void tradeConclusion(String symbol , int type , int second) {
+    public void tradeConclusion(CoinSymbols symbol , int type , int second) {
 
-        List<TradeHistory> tradeListRange = getTradeListRange(symbol, type, second);
+        List<TradeHistory> tradeListRange = getTradeListRange(symbol.getTag() , type, second);
         //체결데이터 카운터
         long count = tradeListRange.stream().count();
         if(count < 1) {
@@ -73,7 +73,7 @@ public class TradeHistoryService {
 
         avgPrice = sum.divide(new BigDecimal(count), 8 , RoundingMode.HALF_DOWN);
 
-        TradeConclusion tradeConclusion = tradeConclusionMapper.selectTradeConclusionLatest(symbol);
+        TradeConclusion tradeConclusion = tradeConclusionMapper.selectTradeConclusionLatest(symbol.name());
         if(!ObjectUtils.isEmpty(tradeConclusion)) {
             if(tradeConclusion.getAvg().compareTo(avgPrice) < 0) {
                 signal = "UP";
@@ -83,15 +83,16 @@ public class TradeHistoryService {
                 logger.info(symbol + " 거래체결 평균값에 대한 변경이 없습니다.");
                 return;
             }
-        } 
+        }
 
         TradeConclusion conclusion = TradeConclusion.builder()
-                .symbol(symbol)
+                .symbol(symbol.name())
                 .signal(signal)
                 .second(Math.abs(second))
                 .min(minPrice)
                 .max(maxPrice)
                 .avg(avgPrice)
+                .dev(maxPrice.subtract(minPrice))
                 .count(collects.size())
                 .trade_at(LocalDateTime.now())
                 .build();
@@ -115,29 +116,19 @@ public class TradeHistoryService {
         return tradeHistorys;
     }
 
-    public List<TradeHistory> getTradeListRange(String symbol, int type , int second) {
+    public List<TradeHistory> getTradeListRange(String tag, int type , int second) {
         long end = TimeUtils.getCurrentTimestamp();
         long start = TimeUtils.getTimestampRange(type , second);
-        List<TradeHistory> tradeHistories = new ArrayList<>();
-
-        if(symbol.equals(CoinSymbols.ETHUSDT.name())) {
-            tradeHistories = tradeHistoryMapper.selectTradeHistoryETH(start , end);
-        } else if(symbol.equals(CoinSymbols.BTCUSDT.name())) {
-            tradeHistories = tradeHistoryMapper.selectTradeHistoryBTC(start , end);
-        }
+        List<TradeHistory> tradeHistories = tradeHistoryMapper.selectTradeHistory(tag , start , end);
         return tradeHistories;
     }
 
-    public void saveTradeHistroy(String symbol, List<TradeHistory> tradeHistorys) {
+    public void saveTradeHistroy(CoinSymbols symbol, List<TradeHistory> tradeHistorys) {
         for (TradeHistory tradeHistory : tradeHistorys) {
-            tradeHistory.setSymbol(symbol);
+            tradeHistory.setSymbol(symbol.name());
+            tradeHistory.setTag(symbol.getTag());
             tradeHistory.setTranId(tradeHistory.getId());
-
-            if(symbol.equals(CoinSymbols.ETHUSDT.name())) {
-                tradeHistoryMapper.insertTradeHistoryETH(tradeHistory);
-            } else if(symbol.equals(CoinSymbols.BTCUSDT.name())) {
-                tradeHistoryMapper.insertTradeHistoryBTC(tradeHistory);
-            }
+            tradeHistoryMapper.insertTradeHistory(tradeHistory);
         }
     }
 }

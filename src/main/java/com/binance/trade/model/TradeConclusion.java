@@ -17,6 +17,7 @@ public class TradeConclusion {
     private BigDecimal min;
     private BigDecimal max;
     private BigDecimal avg;
+    private BigDecimal dev;
     private String symbol;
     private String signal;
     private Integer count;

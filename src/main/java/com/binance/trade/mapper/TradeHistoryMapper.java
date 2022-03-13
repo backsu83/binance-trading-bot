@@ -9,10 +9,11 @@ import java.util.List;
 @Repository
 public interface TradeHistoryMapper {
 
-//    List<TradeHistory> selectTradeHistory();
-    List<TradeHistory> selectTradeHistoryETH(@Param("start") long start , @Param("end") long end);
-    int insertTradeHistoryETH(TradeHistory tradeHistory);
-    List<TradeHistory> selectTradeHistoryBTC(@Param("start") long start , @Param("end") long end);
-    int insertTradeHistoryBTC(TradeHistory tradeHistory);
+    int insertTradeHistory(TradeHistory tradeHistory);
+
+    List<TradeHistory> selectTradeHistory(@Param("tag") String tag,
+                                          @Param("start") long start,
+                                          @Param("end") long end);
+
 
 }

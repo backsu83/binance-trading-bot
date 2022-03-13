@@ -32,13 +32,13 @@ public class TradeHistoryServiceTest {
 
     @Test
     void _바이낸스_체결데이터_조회() {
-        final List<TradeHistory> ethusdt = testService.getTradeListByBinance(CoinSymbols.ETHUSDT.name());
+        final List<TradeHistory> ethusdt = testService.getTradeListByBinance(CoinSymbols.SANDUSDT.name());
         System.out.println(ethusdt.toString());
     }
 
     @Test
     void _바이낸스_체결데이터_저장() {
-        testService.tradehistroy(CoinSymbols.ETHUSDT.name());
+        testService.tradehistroy(CoinSymbols.ETHUSDT);
     }
 
     @Test
@@ -66,6 +66,7 @@ public class TradeHistoryServiceTest {
 
         System.out.println(minPrice);
         System.out.println(maxPrice);
+        System.out.println(maxPrice.subtract(minPrice));
         System.out.println(minPrice.add(maxPrice).divide(new BigDecimal(2)));
         avgPrice = sum.divide(new BigDecimal(count));
         System.out.println(sum);
@@ -76,7 +77,7 @@ public class TradeHistoryServiceTest {
     void _DB_체결데이터_조회() {
 
         List<TradeHistory> tradeListByMinutes
-                = testService.getTradeListRange(CoinSymbols.ETHUSDT.name() , Calendar.SECOND , -10);
+                = testService.getTradeListRange(CoinSymbols.ETHUSDT.getTag() , Calendar.SECOND , -10);
         System.out.println("tradeListByMinutes size : " + tradeListByMinutes.size());
         for (TradeHistory tradeHistory : tradeListByMinutes) {
             System.out.println(TimeUtils.getTimeToLocalDatetime(tradeHistory.getTime().longValue()));
@@ -85,7 +86,7 @@ public class TradeHistoryServiceTest {
 
     @Test
     void _DB_체결데이터_결과저장() {
-        testService.tradeConclusion(CoinSymbols.ETHUSDT.name() , Calendar.SECOND , -11360);
+        testService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -11360);
     }
 
     @Test
