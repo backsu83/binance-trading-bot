@@ -2,6 +2,7 @@ package com.binance.trade.schedule;
 
 
 import com.binance.trade.client.enums.CoinSymbols;
+import com.binance.trade.service.FutureBetLogic;
 import com.binance.trade.service.TradeHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,6 +15,9 @@ public class TradeHistorySchdule {
 
     @Autowired
     TradeHistoryService tradeHistoryService;
+
+    @Autowired
+    FutureBetLogic futureBetLogic;
 
     @Scheduled(fixedDelay = 1000)
     public void schduleTradeHistroyETH() {
@@ -32,6 +36,12 @@ public class TradeHistorySchdule {
         tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -10);
         tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT , Calendar.SECOND , -10);
         tradeHistoryService.tradeConclusion(CoinSymbols.SANDUSDT , Calendar.SECOND , -10);
+    }
+
+    @Scheduled(fixedDelay = 60000)
+    public void schduleFutureLogic() {
+        futureBetLogic.getTadeConclusion(CoinSymbols.ETHUSDT.name(),10,10 );
+
     }
 
 }

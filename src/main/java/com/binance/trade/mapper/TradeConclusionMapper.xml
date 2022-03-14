@@ -18,6 +18,9 @@
             `second`,
             `trade_at`
         FROM bot.trade_conclusion
+        WHERE `symbol` = #{symbol}
+          AND `second` = #{second}
+        ORDER BY `trade_at` DESC limit #{limit};
     </select>
 
     <select id="selectTradeConclusionLatest" resultType="com.binance.trade.model.TradeConclusion">
@@ -34,7 +37,7 @@
             `trade_at`
         FROM bot.trade_conclusion
         WHERE symbol = #{symbol}
-        order by `id` desc limit 1;
+        ORDER BY `id` DESC limit 1;
     </select>
 
     <insert id="insertTradeConclusion" parameterType="com.binance.trade.model.TradeConclusion">

@@ -9,7 +9,10 @@ import java.util.List;
 @Repository
 public interface TradeConclusionMapper {
 
-    List<TradeConclusion> selectTradeConclusion();
+    List<TradeConclusion> selectTradeConclusion(@Param("symbol") String symbol,
+                                                @Param("second") int second,
+                                                @Param("limit") int limit);
+
     TradeConclusion selectTradeConclusionLatest(@Param("symbol") String symbol);
     int insertTradeConclusion(TradeConclusion tradeHistory);
 

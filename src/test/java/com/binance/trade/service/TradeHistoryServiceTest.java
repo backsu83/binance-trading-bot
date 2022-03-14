@@ -1,4 +1,4 @@
-package com.binance.trade;
+package com.binance.trade.service;
 
 import com.binance.trade.client.enums.CoinSymbols;
 import com.binance.trade.client.enums.TimeUtils;
