@@ -97,4 +97,9 @@ public class TradeHistoryServiceTest {
         System.out.println(tradeConclusion.toString());
     }
 
+    @Test
+    void RSI() {
+        testService.getRsi(CoinSymbols.BTCUSDT);
+    }
+
 }

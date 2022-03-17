@@ -6,8 +6,10 @@ import com.binance.trade.client.enums.CoinSymbols;
 import com.binance.trade.client.enums.TimeUtils;
 import com.binance.trade.mapper.TradeConclusionMapper;
 import com.binance.trade.mapper.TradeHistoryMapper;
+import com.binance.trade.mapper.TradeRsiMapper;
 import com.binance.trade.model.TradeConclusion;
 import com.binance.trade.model.TradeHistory;
+import com.binance.trade.model.TradeRsi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +31,7 @@ public class TradeHistoryService {
 
     private final TradeHistoryMapper tradeHistoryMapper;
     private final TradeConclusionMapper tradeConclusionMapper;
+    private final TradeRsiMapper tradeRsiMapper;
     private final ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(TradeHistoryService.class);
@@ -130,6 +133,74 @@ public class TradeHistoryService {
             tradeHistory.setTranId(tradeHistory.getId());
             tradeHistoryMapper.insertTradeHistory(tradeHistory);
         }
+    }
+
+    public void getRsi(CoinSymbols symbol) {
+        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi();
+        List<BigDecimal> data = new ArrayList<>();
+        List<BigDecimal> U = new ArrayList<>();
+        List<BigDecimal> D = new ArrayList<>();
+
+        Collections.reverse(tradeRsi);
+
+        for (TradeRsi rsi : tradeRsi) {
+//            System.out.println(rsi.getPrice());
+            data.add(rsi.getPrice());
+        }
+
+/*
+        ArrayList<BigDecimal> data = new ArrayList<BigDecimal>(Arrays.asList(BigDecimal.valueOf(9),
+                BigDecimal.valueOf(13),
+                BigDecimal.valueOf(24),
+                BigDecimal.valueOf(5),
+                BigDecimal.valueOf(1),
+                BigDecimal.valueOf(5),
+                BigDecimal.valueOf(7)));
+*/
+        int i = 0;
+        for (BigDecimal p : data) {
+            if (data.size()-1 == i) break;
+//            System.out.println("========= index : " + i + "  ============");
+//            System.out.println(data.get(i+1) + " - " + p);
+//            System.out.println(data.get(i+1).subtract(p));
+            if (data.get(i+1).subtract(p).compareTo(BigDecimal.valueOf(0)) > 0) {
+                U.add(data.get(i+1).subtract(p));
+                D.add(BigDecimal.valueOf(0));
+            } else {
+                U.add(BigDecimal.valueOf(0));
+                D.add(data.get(i+1).subtract(p).multiply(BigDecimal.valueOf(-1)));
+            }
+
+            i++;
+        }
+
+//        System.out.println(U);
+//        System.out.println(D);
+        BigDecimal AU = BigDecimal.valueOf(0);
+        BigDecimal AD = BigDecimal.valueOf(0);
+        BigDecimal RSI = BigDecimal.valueOf(0);
+        for (BigDecimal b : U) {
+            AU = AU.add(b);
+        }
+        AU = AU.divide(BigDecimal.valueOf(U.size()), 8, RoundingMode.HALF_UP);
+
+        for (BigDecimal b : D) {
+            AD = AD.add(b);
+        }
+        AD = AD.divide(BigDecimal.valueOf(D.size()), 8, RoundingMode.HALF_UP);
+
+        BigDecimal RS = AU.divide(AD, 8, RoundingMode.DOWN);
+
+//        System.out.println("AU : " + AU);
+//        System.out.println("AD : " + AD);
+//        System.out.println("RS : " + RS);
+
+        RSI = RS.divide(RS.add(BigDecimal.valueOf(1)),8, RoundingMode.HALF_UP);
+        RSI = RSI.multiply(BigDecimal.valueOf(100));
+        int resultRsi = RSI.intValue();
+//        System.out.println("RSI : " + RSI);
+        System.out.println("RSI : " + resultRsi);
+
     }
 }
 

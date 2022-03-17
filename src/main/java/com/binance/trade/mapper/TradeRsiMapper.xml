@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.binance.trade.mapper.TradeRsiMapper">
+    <select id="selectTradeRsi" resultType="com.binance.trade.model.TradeRsi">
+        select avg(price) as price, dateYmd
+        from (
+                 select price, left (from_unixtime(left (`time`, 10)), 18) as `dateYmd`
+                 from trade_history_sand) T
+        group by dateYmd
+        order by dateYmd desc limit 7
+    </select>
+</mapper>
