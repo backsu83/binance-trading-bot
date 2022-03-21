@@ -21,26 +21,27 @@ public class TradeHistorySchdule {
 
     @Scheduled(fixedDelay = 1000)
     public void schduleTradeHistroyETH() {
-        tradeHistoryService.tradehistroy(CoinSymbols.BTCUSDT);
-        tradeHistoryService.tradehistroy(CoinSymbols.ETHUSDT);
+//        tradeHistoryService.tradehistroy(CoinSymbols.BTCUSDT);
+//        tradeHistoryService.tradehistroy(CoinSymbols.ETHUSDT);
         tradeHistoryService.tradehistroy(CoinSymbols.SANDUSDT);
+        tradeHistoryService.getRsi(CoinSymbols.SANDUSDT);
     }
 
     @Scheduled(fixedDelay = 3000)
     public void schduleTradeConclusionETHBy3() {
-        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -3);
-        tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT , Calendar.SECOND , -3);
+//        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -3);
     }
 
-//    @Scheduled(fixedDelay = 10000)
-//    public void schduleTradeConclusionETHBy10() {
+    @Scheduled(fixedDelay = 10000)
+    public void schduleTradeConclusionETHBy10() {
 //        tradeHistoryService.tradeConclusion(CoinSymbols.ETHUSDT , Calendar.SECOND , -10);
 //        tradeHistoryService.tradeConclusion(CoinSymbols.BTCUSDT , Calendar.SECOND , -10);
-//    }
+        tradeHistoryService.tradeConclusion(CoinSymbols.SANDUSDT , Calendar.SECOND , -10);
+    }
 
     @Scheduled(fixedDelay = 60000)
     public void schduleFutureLogic() {
-        futureBetLogic.getTadeConclusion(CoinSymbols.ETHUSDT.name(),3,20, 50);
-        futureBetLogic.getTadeConclusion(CoinSymbols.SANDUSDT.name(),3,20 ,20);
+//        futureBetLogic.getTadeConclusion(CoinSymbols.ETHUSDT.name(),10,10 );
+
     }
 }
