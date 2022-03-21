@@ -13,6 +13,6 @@ public class FutureBetLogicTest {
 
     @Test
     void _DB_체결결과_대이터_조회() {
-        futureBetLogic.getTadeConclusion(CoinSymbols.ETHUSDT.name() , 3 , 20);
+        futureBetLogic.getTadeConclusion(CoinSymbols.ETHUSDT.name() , 3 , 20,50);
     }
 }

@@ -33,7 +33,7 @@ public class SlackMessage {
         bodyMap.put("text", message);
         WebClient webClient = WebClient.create("https://hooks.slack.com");
         webClient.post()
-                .uri("/services/T4XF9PJR3/B036ZNJKBLL/UdQUdcQCCYvn84DI7xHwDn5y")
+                .uri("/services/T4XF9PJR3/B036ZNJKBLL/13F3dFEg5tIvr0SWy9BBoLdO")
                 .header(HttpHeaders.CONTENT_TYPE , MediaType.APPLICATION_JSON_VALUE)
                 .body(BodyInserters.fromValue(bodyMap))
                 .exchange()

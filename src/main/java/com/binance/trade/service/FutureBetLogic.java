@@ -24,7 +24,7 @@ public class FutureBetLogic {
      * @param second
      * @param limit
      */
-    public void getTadeConclusion(String symbol, int second, int limit) {
+    public void getTadeConclusion(String symbol, int second, int limit , int over) {
         List<TradeConclusion> tradeConclusions
                 = tradeConclusionMapper.selectTradeConclusion(symbol , second, limit);
 
@@ -49,7 +49,7 @@ public class FutureBetLogic {
                 cntDown++;
             }
 
-            if(tradeConclusion.getCount() > 100) {
+            if(tradeConclusion.getCount() > over) {
                 cntOver++;
             }
         }
@@ -58,7 +58,7 @@ public class FutureBetLogic {
         perDown = Double.parseDouble(String.format("%.1f",(cntDown / limit) * 100.0));
         perOver = Double.parseDouble(String.format("%.1f",(cntOver / limit) * 100.0));
 
-        if(perUp < perSignal || perDown < perSignal) {
+        if(perUp < perSignal && perDown < perSignal) {
             logger.info("UP 비율:{} , DOWN 비율:{}" , perUp , perDown);
             return;
         }
