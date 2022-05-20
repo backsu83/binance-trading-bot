@@ -156,6 +156,14 @@ public interface SyncRequestClient {
                     String newClientOrderId, String stopPrice, WorkingType workingType, NewOrderRespType newOrderRespType);
 
     /**
+     * Send in a simple new order.
+     *
+     * @return Order.
+     */
+    Order simplePostOrder(String symbol, OrderSide side, PositionSide positionSide, OrderType orderType, String quantity, WorkingType workingType, NewOrderRespType newOrderRespType);
+
+
+    /**
      * Cancel an active order.
      *
      * @return Order.
