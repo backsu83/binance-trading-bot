@@ -135,8 +135,10 @@ public class TradeHistoryService {
         }
     }
 
-    public void getRsi(CoinSymbols symbol) {
-        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi();
+    public int getRsi(CoinSymbols symbol) {
+        System.out.println("symbol.getTag() : " + symbol.getTag());
+
+        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi(symbol.getTag());
         List<BigDecimal> data = new ArrayList<>();
         List<BigDecimal> U = new ArrayList<>();
         List<BigDecimal> D = new ArrayList<>();
@@ -191,16 +193,16 @@ public class TradeHistoryService {
 
         BigDecimal RS = AU.divide(AD, 8, RoundingMode.DOWN);
 
-//        System.out.println("AU : " + AU);
-//        System.out.println("AD : " + AD);
-//        System.out.println("RS : " + RS);
+        System.out.println("AU : " + AU);
+        System.out.println("AD : " + AD);
+        System.out.println("RS : " + RS);
 
         RSI = RS.divide(RS.add(BigDecimal.valueOf(1)),8, RoundingMode.HALF_UP);
         RSI = RSI.multiply(BigDecimal.valueOf(100));
         int resultRsi = RSI.intValue();
 //        System.out.println("RSI : " + RSI);
         System.out.println("RSI : " + resultRsi);
-
+        return resultRsi;
     }
 }
 

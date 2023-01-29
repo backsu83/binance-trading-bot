@@ -5,12 +5,17 @@
 
 
 <mapper namespace="com.binance.trade.mapper.TradeRsiMapper">
-    <select id="selectTradeRsi" resultType="com.binance.trade.model.TradeRsi">
-        select avg(price) as price, dateYmd
-        from (
-                 select price, left (from_unixtime(left (`time`, 10)), 18) as `dateYmd`
-                 from trade_history_sand) T
-        group by dateYmd
-        order by dateYmd desc limit 7
+    <select id="selectTradeRsi" resultType="com.binance.trade.model.TradeRsi" parameterType="String">
+        SELECT /* selectTradeRsi */
+               avg(price) as price
+             , dateYmd
+        FROM (
+                 SELECT
+                   price
+                 , LEFT (from_unixtime(LEFT (`time`, 10)), 18) AS `dateYmd`
+                 FROM
+                    trade_history_${value}) T
+        GROUP BY dateYmd
+        ORDER BY dateYmd DESC LIMIT 7
     </select>
 </mapper>
