@@ -32,7 +32,7 @@ public class TradeHistorySchdule {
         tradeHistoryService.tradehistroy(CoinSymbols.APTUSDT);
         int rsi = tradeHistoryService.getRsi(CoinSymbols.APTUSDT);
         if (rsi >= 90 || rsi <= 10) {
-            slackMessage.sendRsi(CoinSymbols.APTUSDT + " RSI : " + rsi);
+//            slackMessage.sendRsi(CoinSymbols.APTUSDT + " RSI : " + rsi);
         }
     }
 
