@@ -54,7 +54,7 @@ public class TradeHistoryService {
         BigDecimal minPrice = null;
         BigDecimal maxPrice = null;
         BigDecimal avgPrice = null;
-        String signal = "UP";
+        String signal = "EQUAL";
 
         //최소값,최대값,평균 구하기
         List<TradeHistory> collects = tradeListRange.stream()
@@ -119,6 +119,30 @@ public class TradeHistoryService {
         return tradeHistorys;
     }
 
+    public String selectTradeConclusionUpDown(){
+        List<TradeConclusion> recentList = tradeConclusionMapper.selectTradeConclusionUpDown();
+        int i = 0;
+        List<String> signals = new ArrayList<>();
+        String flagSignal = "";
+        for (TradeConclusion list : recentList) {
+            if (i != 3) {
+                signals.add(list.getSignal());
+            } else {
+                flagSignal = list.getSignal();
+            }
+            i++;
+        }
+        List<String> resultSignals = signals.stream().distinct().collect(Collectors.toList());
+        if (resultSignals.size() == 1 && !flagSignal.equals(resultSignals.get(0))) {
+            if (flagSignal.equals("UP")) {
+                return "long";
+            } else {
+                return "short";
+            }
+        }
+        return null;
+    }
+
     public List<TradeHistory> getTradeListRange(String tag, int type , int second) {
         long end = TimeUtils.getCurrentTimestamp();
         long start = TimeUtils.getTimestampRange(type , second);
@@ -135,8 +159,8 @@ public class TradeHistoryService {
         }
     }
 
-    public void getRsi(CoinSymbols symbol) {
-        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi();
+    public int getRsi(CoinSymbols symbol) {
+        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi(symbol.getTag());
         List<BigDecimal> data = new ArrayList<>();
         List<BigDecimal> U = new ArrayList<>();
         List<BigDecimal> D = new ArrayList<>();
@@ -200,7 +224,7 @@ public class TradeHistoryService {
         int resultRsi = RSI.intValue();
 //        System.out.println("RSI : " + RSI);
         System.out.println("RSI : " + resultRsi);
-
+        return resultRsi;
     }
 }
 

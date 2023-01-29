@@ -9,12 +9,12 @@ server:
   compression:
     enabled: true
     mime-types: application/json
-  port: 5000
+  port: 5050
 
 spring:
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://localhost:8889/bot?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      jdbc-url: jdbc:log4jdbc:mysql://localhost:8889/bot?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
       username: root
       password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

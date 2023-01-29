@@ -7,8 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum  CoinSymbols {
     ETHUSDT("eth"),
-    BTCUSDT("btc"),
-    SANDUSDT("sand");
+    APTUSDT("apt");
+//    BTCUSDT("btc"),
+//    SANDUSDT("sand");
 
     private String tag;
 }

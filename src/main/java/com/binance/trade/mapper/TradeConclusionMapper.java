@@ -14,6 +14,7 @@ public interface TradeConclusionMapper {
                                                 @Param("limit") int limit);
 
     TradeConclusion selectTradeConclusionLatest(@Param("symbol") String symbol);
+    List<TradeConclusion> selectTradeConclusionUpDown();
     int insertTradeConclusion(TradeConclusion tradeHistory);
 
 }

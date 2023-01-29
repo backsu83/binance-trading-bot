@@ -39,6 +39,12 @@
         WHERE symbol = #{symbol}
         ORDER BY `id` DESC limit 1;
     </select>
+    <select id="selectTradeConclusionUpDown" resultType="com.binance.trade.model.TradeConclusion">
+        (select `signal`, `second`, trade_at from trade_conclusion where second = 5 order by id desc limit 3)
+        UNION ALL
+        (select `signal`, `second`, trade_at from trade_conclusion where second = 3 order by id desc limit 3)
+    </select>
+
 
     <insert id="insertTradeConclusion" parameterType="com.binance.trade.model.TradeConclusion">
         INSERT INTO bot.trade_conclusion (

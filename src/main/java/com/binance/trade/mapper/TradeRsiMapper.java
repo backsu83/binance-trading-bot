@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TradeRsiMapper {
-    List<TradeRsi> selectTradeRsi();
+    List<TradeRsi> selectTradeRsi(String tag);
 }

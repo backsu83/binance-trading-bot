@@ -14,6 +14,4 @@ public interface TradeHistoryMapper {
     List<TradeHistory> selectTradeHistory(@Param("tag") String tag,
                                           @Param("start") long start,
                                           @Param("end") long end);
-
-
 }

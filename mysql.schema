@@ -3,7 +3,7 @@ create table if not exists trade_conclusion
 	id bigint auto_increment
 		primary key,
 	symbol varchar(20) null,
-	signal varchar(20) null,
+	`signal` varchar(20) null,
 	min decimal(16,8) null,
 	max decimal(16,8) null,
 	avg decimal(16,8) null,

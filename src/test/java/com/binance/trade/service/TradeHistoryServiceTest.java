@@ -32,7 +32,7 @@ public class TradeHistoryServiceTest {
 
     @Test
     void _바이낸스_체결데이터_조회() {
-        final List<TradeHistory> ethusdt = testService.getTradeListByBinance(CoinSymbols.SANDUSDT.name());
+        final List<TradeHistory> ethusdt = testService.getTradeListByBinance(CoinSymbols.ETHUSDT.name());
         System.out.println(ethusdt.toString());
     }
 
@@ -99,7 +99,7 @@ public class TradeHistoryServiceTest {
 
     @Test
     void RSI() {
-        testService.getRsi(CoinSymbols.BTCUSDT);
+        testService.getRsi(CoinSymbols.ETHUSDT);
     }
 
 }

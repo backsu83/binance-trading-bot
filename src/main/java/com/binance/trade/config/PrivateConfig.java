@@ -1,4 +1,4 @@
-package com.binance.trade.examples;
+package com.binance.trade.config;
 
 public class PrivateConfig {
 
