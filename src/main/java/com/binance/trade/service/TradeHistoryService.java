@@ -222,9 +222,16 @@ public class TradeHistoryService {
         RSI = RS.divide(RS.add(BigDecimal.valueOf(1)),8, RoundingMode.HALF_UP);
         RSI = RSI.multiply(BigDecimal.valueOf(100));
         int resultRsi = RSI.intValue();
-//        System.out.println("RSI : " + RSI);
-        System.out.println("RSI : " + resultRsi);
+//        System.out.println("RSI : " + resultRsi);
         return resultRsi;
+    }
+
+    public void tradeVolumeReport(CoinSymbols aptusdt) {
+        tradeHistoryMapper.insertTradeVolume(aptusdt.getTag());
+    }
+
+    public int checkTradeVolumeExplosion(CoinSymbols aptusdt) {
+        return tradeHistoryMapper.checkTradeVolumeExplosion(aptusdt.getTag());
     }
 }
 

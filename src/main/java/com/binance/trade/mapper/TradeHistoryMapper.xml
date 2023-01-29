@@ -45,4 +45,22 @@
         AND time >= #{start} AND time <= #{end}
         ]]>
     </select>
+
+    <insert id="insertTradeVolume" parameterType="String">
+        INSERT INTO trade_volume_report ( symbol, volume, avg_price, date_hour)
+        SELECT *
+        FROM (
+                 SELECT 'apt', SUM(qty) qty, AVG(price), LEFT(FROM_UNIXTIME(LEFT(`time`, 10)), 16) AS date_hour
+                 FROM trade_history_apt WHERE `time` >= CONCAT(UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 1 day )), '000')
+                 GROUP BY LEFT(FROM_UNIXTIME(LEFT(`time`, 10)), 16)
+             ) A
+            ON DUPLICATE KEY UPDATE volume = A.qty, updated_at = now()
+    </insert>
+
+    <select id="checkTradeVolumeExplosion" resultType="int">
+        SELECT ROUND(A.volume / B.volume)
+        FROM
+            (SELECT volume FROM trade_volume_report WHERE symbol = 'apt' ORDER BY id DESC limit 1) A,
+            (SELECT volume FROM trade_volume_report WHERE symbol = 'apt' ORDER BY id DESC limit 1,1) B
+    </select>
 </mapper>
