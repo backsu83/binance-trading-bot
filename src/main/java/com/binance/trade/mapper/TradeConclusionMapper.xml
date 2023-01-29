@@ -70,4 +70,42 @@
             #{trade_at}
         )
     </insert>
+
+<!--    <insert id="insertTradeHistory" parameterType="com.binance.trade.client.model.trade.order">-->
+<!--        INSERT INTO bot.trade_transactions (-->
+<!--            `clientOrderId`,-->
+<!--            `cumQuote`,-->
+<!--            `executedQty`,-->
+<!--            `orderId`,-->
+<!--            `origQty`,-->
+<!--            `price`,-->
+<!--            `reduceOnly`,-->
+<!--            `side`,-->
+<!--            `positionSide`,-->
+<!--            `status`,-->
+<!--            `stopPrice`,-->
+<!--            `symbol`,-->
+<!--            `timeInForce`,-->
+<!--            `type`,-->
+<!--            `updateTime`,-->
+<!--            `workingType`-->
+<!--        ) values (-->
+<!--             #{clientOrderId},-->
+<!--             #{cumQuote},-->
+<!--             #{executedQty},-->
+<!--             #{orderId},-->
+<!--             #{origQty},-->
+<!--             #{price},-->
+<!--             #{reduceOnly},-->
+<!--             #{side},-->
+<!--             #{positionSide},-->
+<!--             #{status},-->
+<!--             #{stopPrice},-->
+<!--             #{symbol},-->
+<!--             #{timeInForce},-->
+<!--             #{type},-->
+<!--             #{updateTime},-->
+<!--             #{workingType}-->
+<!--        )-->
+<!--    </insert>-->
 </mapper>

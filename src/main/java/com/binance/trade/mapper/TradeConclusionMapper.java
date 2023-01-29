@@ -1,5 +1,6 @@
 package com.binance.trade.mapper;
 
+//import com.binance.trade.client.model.trade.Order;
 import com.binance.trade.model.TradeConclusion;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,10 @@ public interface TradeConclusionMapper {
                                                 @Param("limit") int limit);
 
     TradeConclusion selectTradeConclusionLatest(@Param("symbol") String symbol);
+
     List<TradeConclusion> selectTradeConclusionUpDown();
+
     int insertTradeConclusion(TradeConclusion tradeHistory);
 
+//    int insertTradeHistory(Order orderInfo);
 }

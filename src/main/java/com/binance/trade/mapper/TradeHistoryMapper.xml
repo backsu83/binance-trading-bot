@@ -57,10 +57,10 @@
             ON DUPLICATE KEY UPDATE volume = A.qty, updated_at = now()
     </insert>
 
-    <select id="checkTradeVolumeExplosion" resultType="int">
-        SELECT ROUND(A.volume / B.volume)
+    <select id="checkTradeVolumeExplosion" resultType="com.binance.trade.model.TradeVolumeExplosion" parameterType="String">
+        SELECT ROUND(A.volume / B.volume) AS tradeVolumeIncreaseRate, B.avg_price - A.avg_price AS priceMovingAmount
         FROM
-            (SELECT volume FROM trade_volume_report WHERE symbol = 'apt' ORDER BY id DESC limit 1) A,
-            (SELECT volume FROM trade_volume_report WHERE symbol = 'apt' ORDER BY id DESC limit 1,1) B
+            (SELECT volume, avg_price FROM trade_volume_report WHERE symbol = '${value}' ORDER BY id DESC limit 1) A,
+            (SELECT volume, avg_price FROM trade_volume_report WHERE symbol = '${value}' ORDER BY id DESC limit 1,1) B
     </select>
 </mapper>

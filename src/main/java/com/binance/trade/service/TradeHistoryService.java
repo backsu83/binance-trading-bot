@@ -4,12 +4,14 @@ package com.binance.trade.service;
 import com.binance.connector.client.impl.SpotClientImpl;
 import com.binance.trade.client.enums.CoinSymbols;
 import com.binance.trade.client.enums.TimeUtils;
+//import com.binance.trade.client.model.trade.Order;
 import com.binance.trade.mapper.TradeConclusionMapper;
 import com.binance.trade.mapper.TradeHistoryMapper;
 import com.binance.trade.mapper.TradeRsiMapper;
 import com.binance.trade.model.TradeConclusion;
 import com.binance.trade.model.TradeHistory;
 import com.binance.trade.model.TradeRsi;
+import com.binance.trade.model.TradeVolumeExplosion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +37,10 @@ public class TradeHistoryService {
     private final ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(TradeHistoryService.class);
+
+//    public int setOrderInfo(Order orderInfo) {
+//        return tradeConclusionMapper.insertTradeHistory(orderInfo);
+//    }
 
     public void tradehistroy(CoinSymbols symbol) {
         List<TradeHistory> tradeList = getTradeListByBinance(symbol.name());
@@ -230,7 +236,7 @@ public class TradeHistoryService {
         tradeHistoryMapper.insertTradeVolume(aptusdt.getTag());
     }
 
-    public int checkTradeVolumeExplosion(CoinSymbols aptusdt) {
+    public TradeVolumeExplosion checkTradeVolumeExplosion(CoinSymbols aptusdt) {
         return tradeHistoryMapper.checkTradeVolumeExplosion(aptusdt.getTag());
     }
 }
