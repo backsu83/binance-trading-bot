@@ -8,9 +8,8 @@ import lombok.Getter;
 public enum  CoinSymbols {
     BTCUSDT("btc"),
     ETHUSDT("eth"),
+    SOLUSDT("sol"),
     APTUSDT("apt");
-//    BTCUSDT("btc"),
-//    SANDUSDT("sand");
 
     private String tag;
 }

@@ -2,6 +2,7 @@ package com.binance.trade.mapper;
 
 import com.binance.trade.model.TradeHistory;
 import com.binance.trade.model.TradeVolumeExplosion;
+import com.binance.trade.model.TradeVolumeReport;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public interface TradeHistoryMapper {
                                           @Param("start") long start,
                                           @Param("end") long end);
 
-    void insertTradeVolume(String symbol);
+    void insertTradeVolume(TradeVolumeReport tradeVolumeReport);
 
     TradeVolumeExplosion checkTradeVolumeExplosion(String tag);
 }

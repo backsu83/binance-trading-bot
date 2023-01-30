@@ -9,7 +9,7 @@
         select avg(price) as price, dateYmd
         from (
                  select price, left (from_unixtime(left (`time`, 10)), 18) as `dateYmd`
-                 from trade_history_${value}) T
+                 from trade_history where symbol='${value}') T
         group by dateYmd
         order by dateYmd desc limit 6
     </select>

@@ -7,7 +7,7 @@
 <mapper namespace="com.binance.trade.mapper.TradeHistoryMapper">
 
     <insert id="insertTradeHistory" parameterType="com.binance.trade.model.TradeHistory">
-        INSERT IGNORE INTO bot.trade_history_${tag} (
+        INSERT IGNORE INTO bot.trade_history (
             tranId,
             price,
             symbol,
@@ -40,18 +40,18 @@
             isBestMatch,
             isBuyerMaker,
             time
-        FROM bot.trade_history_${tag} WHERE 1=1
+        FROM bot.trade_history WHERE 1=1
         <![CDATA[
         AND time >= #{start} AND time <= #{end}
         ]]>
     </select>
 
-    <insert id="insertTradeVolume" parameterType="String">
+    <insert id="insertTradeVolume" parameterType="com.binance.trade.model.TradeVolumeReport">
         INSERT INTO trade_volume_report ( symbol, volume, avg_price, date_hour)
         SELECT *
         FROM (
-                 SELECT 'apt', SUM(qty) qty, AVG(price), LEFT(FROM_UNIXTIME(LEFT(`time`, 10)), 16) AS date_hour
-                 FROM trade_history_apt WHERE `time` >= CONCAT(UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 1 day )), '000')
+                 SELECT #{symbol}, SUM(qty) qty, AVG(price), LEFT(FROM_UNIXTIME(LEFT(`time`, 10)), 16) AS date_hour
+                 FROM trade_history WHERE `time` >= CONCAT(UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 1 day )), '000') AND symbol = #{pair}
                  GROUP BY LEFT(FROM_UNIXTIME(LEFT(`time`, 10)), 16)
              ) A
             ON DUPLICATE KEY UPDATE volume = A.qty, updated_at = now()

@@ -8,10 +8,7 @@ import com.binance.trade.client.enums.TimeUtils;
 import com.binance.trade.mapper.TradeConclusionMapper;
 import com.binance.trade.mapper.TradeHistoryMapper;
 import com.binance.trade.mapper.TradeRsiMapper;
-import com.binance.trade.model.TradeConclusion;
-import com.binance.trade.model.TradeHistory;
-import com.binance.trade.model.TradeRsi;
-import com.binance.trade.model.TradeVolumeExplosion;
+import com.binance.trade.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -166,7 +163,7 @@ public class TradeHistoryService {
     }
 
     public int getRsi(CoinSymbols symbol) {
-        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi(symbol.getTag());
+        List<TradeRsi> tradeRsi = tradeRsiMapper.selectTradeRsi(symbol.toString());
         List<BigDecimal> data = new ArrayList<>();
         List<BigDecimal> U = new ArrayList<>();
         List<BigDecimal> D = new ArrayList<>();
@@ -232,8 +229,8 @@ public class TradeHistoryService {
         return resultRsi;
     }
 
-    public void tradeVolumeReport(CoinSymbols aptusdt) {
-        tradeHistoryMapper.insertTradeVolume(aptusdt.getTag());
+    public void tradeVolumeReport(TradeVolumeReport tradeVolumeReport) {
+        tradeHistoryMapper.insertTradeVolume(tradeVolumeReport);
     }
 
     public TradeVolumeExplosion checkTradeVolumeExplosion(CoinSymbols aptusdt) {

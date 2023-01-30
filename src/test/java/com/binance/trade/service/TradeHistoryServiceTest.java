@@ -99,7 +99,7 @@ public class TradeHistoryServiceTest {
 
     @Test
     void RSI() {
-        testService.getRsi(CoinSymbols.ETHUSDT);
+        testService.getRsi(CoinSymbols.SOLUSDT);
     }
 
 }

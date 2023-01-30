@@ -47,3 +47,60 @@ create table trade_history_btc
   unique (tranId)
 );
 
+create table trade_history
+(
+	id bigint auto_increment
+		primary key,
+	symbol varchar(30) not null,
+	tranId bigint null,
+	price decimal(16,8) not null,
+	qty decimal(16,8) not null,
+	quoteQty decimal(16,8) not null,
+	isBuyerMaker tinyint(1) null,
+	isBestMatch tinyint(1) null,
+	time bigint null,
+	updated_at datetime null,
+	constraint trade_history_tranId_uindex
+		unique (tranId)
+);
+
+create table trade_transactions
+(
+	id bigint unsigned auto_increment
+		primary key,
+	clientOrderId varchar(100) null,
+	cumQuote decimal(16,8) null,
+	executedQty decimal(16,8) null,
+	orderId int null,
+	origQty decimal(16,8) null,
+	price decimal(16,8) null,
+	reduceOnly tinyint(1) null,
+	side varchar(10) null,
+	positionSide varchar(10) null,
+	status varchar(10) null,
+	stopPrice decimal(16,8) null,
+	symbol varchar(50) null,
+	timeInForce varchar(10) null,
+	type varchar(30) null,
+	updateTime bigint null,
+	workingType varchar(30) null,
+	is_closed tinyint(1) unsigned default 0 null,
+	closed_at datetime null
+);
+
+create index trade_transactions_clientOrderId_index
+	on trade_transactions (clientOrderId);
+
+create table trade_volume_report
+(
+	id bigint unsigned auto_increment
+		primary key,
+	symbol varchar(50) not null,
+	volume decimal(16,8) default 0.00000000 not null,
+	avg_price decimal(16,8) null,
+	date_hour varchar(16) not null,
+	updated_at datetime null,
+	constraint trade_volume_report_symbol_date_hour_uindex
+		unique (symbol, date_hour)
+);
+
