@@ -104,42 +104,22 @@ public class TradeHistorySchdule {
             return;
         }
 
-        if (direction.equalsIgnoreCase("LONG")) {
-            syncRequestClient.changeInitialLeverage(tradePair, 10);
-            Order orderInfo = syncRequestClient.postOrder(
-                    tradePair,
-                    OrderSide.BUY,
-                    PositionSide.BOTH,
-                    OrderType.MARKET,
-                    null,
-                    tradeQuantity.toString(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    NewOrderRespType.RESULT);
-            System.out.println(orderInfo);
-            tradeHistoryService.setTradeTransaction(orderInfo);
+        syncRequestClient.changeInitialLeverage(tradePair, 5);
+        Order orderInfo = syncRequestClient.postOrder(
+                tradePair,
+                direction.equalsIgnoreCase("LONG") ? OrderSide.BUY : OrderSide.SELL,
+                PositionSide.BOTH,
+                OrderType.MARKET,
+                null,
+                tradeQuantity.toString(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                NewOrderRespType.RESULT);
+        System.out.println(orderInfo);
+        tradeHistoryService.setTradeTransaction(orderInfo);
 
-        } else if (direction.equalsIgnoreCase("SHORT")) {
-            syncRequestClient.changeInitialLeverage(tradePair, 10);
-            Order orderInfo = syncRequestClient.postOrder(
-                    tradePair,
-                    OrderSide.SELL,
-                    PositionSide.BOTH,
-                    OrderType.MARKET,
-                    null,
-                    tradeQuantity.toString(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    NewOrderRespType.RESULT);
-            System.out.println(orderInfo);
-            slackMessage.sendMsg(orderInfo.toString());
-            tradeHistoryService.setTradeTransaction(orderInfo);
-        }
     }
 }
