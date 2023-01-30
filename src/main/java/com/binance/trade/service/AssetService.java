@@ -39,7 +39,7 @@ public class AssetService {
         }
         Position myUnrealizedPosition =
                 myPosition.stream()
-                        .filter((position) -> position.getSymbol().equals("APTUSDT"))
+                        .filter((position) -> position.getSymbol().equals("SOLUSDT"))
                         .findFirst()
                         .orElseThrow(IllegalStateException::new);
 
@@ -70,7 +70,7 @@ public class AssetService {
         }
         Position myUnrealizedPosition =
                 myPosition.stream()
-                        .filter((position) -> position.getSymbol().equals("APTUSDT"))
+                        .filter((position) -> position.getSymbol().equals("SOLUSDT"))
                         .findFirst()
                         .orElseThrow(IllegalStateException::new);
 

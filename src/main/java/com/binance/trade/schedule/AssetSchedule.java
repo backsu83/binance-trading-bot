@@ -23,7 +23,7 @@ public class AssetSchedule {
         BigDecimal myProfitPercent = assetService.getMyFutureAssets();
         if (myProfitPercent == null) return;
         if (myProfitPercent.compareTo(BigDecimal.valueOf(10)) > 0 || myProfitPercent.compareTo(BigDecimal.valueOf(-10)) < 0) {
-            slackMessage.sendRsi(CoinSymbols.APTUSDT + " profitPercent : " + myProfitPercent);
+            slackMessage.sendMsg(CoinSymbols.SOLUSDT + " profitPercent : " + myProfitPercent);
         }
     }
 }

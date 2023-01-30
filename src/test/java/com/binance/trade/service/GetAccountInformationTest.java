@@ -36,7 +36,7 @@ public class GetAccountInformationTest {
         }
         Position myUnrealizedPosition =
                 myPosition.stream()
-                        .filter((position) -> position.getSymbol().equals("APTUSDT"))
+                        .filter((position) -> position.getSymbol().equals("SOLUSDT"))
                         .findFirst()
                         .orElseThrow(IllegalStateException::new);
 
@@ -65,7 +65,7 @@ public class GetAccountInformationTest {
 
         BigDecimal myUsdtAvailableBalance = myUsdtAsset.getMaxWithdrawAmount();
 
-        List<TradeHistory> tradeHistories = tradeHistoryService.getTradeListByBinance("APTUSDT");
+        List<TradeHistory> tradeHistories = tradeHistoryService.getTradeListByBinance("SOLUSDT");
 
         TradeHistory lastTradeHistory = tradeHistories.get(tradeHistories.size()-1);
         BigDecimal lastTradePrice = lastTradeHistory.getPrice();

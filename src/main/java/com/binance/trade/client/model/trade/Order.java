@@ -1,10 +1,17 @@
 package com.binance.trade.client.model.trade;
 
 import com.binance.trade.client.enums.BinanceApiConstants;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Order {
 
     private String clientOrderId;

@@ -1,5 +1,6 @@
 package com.binance.trade.mapper;
 
+import com.binance.trade.client.model.trade.Order;
 import com.binance.trade.model.TradeHistory;
 import com.binance.trade.model.TradeVolumeExplosion;
 import com.binance.trade.model.TradeVolumeReport;
@@ -20,4 +21,6 @@ public interface TradeHistoryMapper {
     void insertTradeVolume(TradeVolumeReport tradeVolumeReport);
 
     TradeVolumeExplosion checkTradeVolumeExplosion(String tag);
+
+    void insertTradeTransaction(Order order);
 }

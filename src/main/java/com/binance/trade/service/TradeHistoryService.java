@@ -5,6 +5,7 @@ import com.binance.connector.client.impl.SpotClientImpl;
 import com.binance.trade.client.enums.CoinSymbols;
 import com.binance.trade.client.enums.TimeUtils;
 //import com.binance.trade.client.model.trade.Order;
+import com.binance.trade.client.model.trade.Order;
 import com.binance.trade.mapper.TradeConclusionMapper;
 import com.binance.trade.mapper.TradeHistoryMapper;
 import com.binance.trade.mapper.TradeRsiMapper;
@@ -122,6 +123,23 @@ public class TradeHistoryService {
         return tradeHistorys;
     }
 
+    public List<TradeHistory> getTradeListByBinance(String symbol, int limit) {
+
+        LinkedHashMap<String,Object> parameters = new LinkedHashMap<>();
+        SpotClientImpl client = new SpotClientImpl();
+        List<TradeHistory> tradeHistories = new ArrayList();
+        parameters.put("symbol", symbol);
+        parameters.put("limit", limit);
+        String result = client.createMarket().trades(parameters);
+
+        try {
+            tradeHistories = objectMapper.readValue(result, new TypeReference<>(){});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return tradeHistories;
+    }
+
     public String selectTradeConclusionUpDown(){
         List<TradeConclusion> recentList = tradeConclusionMapper.selectTradeConclusionUpDown();
         int i = 0;
@@ -216,17 +234,22 @@ public class TradeHistoryService {
         }
         AD = AD.divide(BigDecimal.valueOf(D.size()), 8, RoundingMode.HALF_UP);
 
-        BigDecimal RS = AU.divide(AD, 8, RoundingMode.DOWN);
+        try {
+            BigDecimal RS = AU.divide(AD, 8, RoundingMode.DOWN);
 
-//        System.out.println("AU : " + AU);
-//        System.out.println("AD : " + AD);
-//        System.out.println("RS : " + RS);
+            //        System.out.println("AU : " + AU);
+            //        System.out.println("AD : " + AD);
+            //        System.out.println("RS : " + RS);
 
-        RSI = RS.divide(RS.add(BigDecimal.valueOf(1)),8, RoundingMode.HALF_UP);
-        RSI = RSI.multiply(BigDecimal.valueOf(100));
-        int resultRsi = RSI.intValue();
-//        System.out.println("RSI : " + resultRsi);
-        return resultRsi;
+            RSI = RS.divide(RS.add(BigDecimal.valueOf(1)), 8, RoundingMode.HALF_UP);
+            RSI = RSI.multiply(BigDecimal.valueOf(100));
+            int resultRsi = RSI.intValue();
+            //        System.out.println("RSI : " + resultRsi);
+            return resultRsi;
+        } catch (ArithmeticException e) {
+            return -1;
+        }
+
     }
 
     public void tradeVolumeReport(TradeVolumeReport tradeVolumeReport) {
@@ -235,6 +258,10 @@ public class TradeHistoryService {
 
     public TradeVolumeExplosion checkTradeVolumeExplosion(CoinSymbols aptusdt) {
         return tradeHistoryMapper.checkTradeVolumeExplosion(aptusdt.getTag());
+    }
+
+    public void setTradeTransaction(Order order) {
+        tradeHistoryMapper.insertTradeTransaction(order);
     }
 }
 

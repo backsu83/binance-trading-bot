@@ -63,4 +63,42 @@
             (SELECT volume, avg_price FROM trade_volume_report WHERE symbol = '${value}' ORDER BY id DESC limit 1) A,
             (SELECT volume, avg_price FROM trade_volume_report WHERE symbol = '${value}' ORDER BY id DESC limit 1,1) B
     </select>
+    
+    <insert id="insertTradeTransaction" parameterType="com.binance.trade.client.model.trade.Order">
+        INSERT INTO trade_transactions (
+            clientOrderId
+            , cumQuote
+            , executedQty
+            , orderId
+            , origQty
+            , price
+            , reduceOnly
+            , side
+            , positionSide
+            , status
+            , stopPrice
+            , symbol
+            , timeInForce
+            , type
+            , updateTime
+            , workingType)
+        values (
+            #{clientOrderId}
+            , #{cumQuote}
+            , #{executedQty}
+            , #{orderId}
+            , #{origQty}
+            , #{price}
+            , #{reduceOnly}
+            , #{side}
+            , #{positionSide}
+            , #{status}
+            , #{stopPrice}
+            , #{symbol}
+            , #{timeInForce}
+            , #{type}
+            , #{updateTime}
+            , #{workingType}
+       )
+    </insert>
 </mapper>

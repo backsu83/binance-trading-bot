@@ -71,7 +71,7 @@ create table trade_transactions
 	clientOrderId varchar(100) null,
 	cumQuote decimal(16,8) null,
 	executedQty decimal(16,8) null,
-	orderId int null,
+	orderId bigint not null,
 	origQty decimal(16,8) null,
 	price decimal(16,8) null,
 	reduceOnly tinyint(1) null,
@@ -87,6 +87,9 @@ create table trade_transactions
 	is_closed tinyint(1) unsigned default 0 null,
 	closed_at datetime null
 );
+
+create index trade_transactions_clientOrderId_index
+	on trade_transactions (clientOrderId);
 
 create index trade_transactions_clientOrderId_index
 	on trade_transactions (clientOrderId);

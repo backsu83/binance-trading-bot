@@ -40,7 +40,7 @@ public class SlackMessage {
                 .block();
     }
 
-    public void sendRsi(String message) {
+    public void sendMsg(String message) {
         Map<String, StringBuilder> bodyMap = new HashMap();
         bodyMap.put("text", new StringBuilder(message));
         WebClient webClient = WebClient.create("https://hooks.slack.com");

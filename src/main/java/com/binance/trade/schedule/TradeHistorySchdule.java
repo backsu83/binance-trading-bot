@@ -68,9 +68,9 @@ public class TradeHistorySchdule {
                 tradeDirection = "LONG";
                 logger.warn(CoinSymbols.SOLUSDT + "LONG");
             }
-//            schduleFutureLogic(CoinSymbols.SOLUSDT.name(), tradeDirection);
+            schduleFutureLogic(CoinSymbols.SOLUSDT.name(), tradeDirection);
             int rsi = tradeHistoryService.getRsi(CoinSymbols.SOLUSDT);
-            slackMessage.sendRsi(CoinSymbols.SOLUSDT + " explosionRate : " + result.getTradeVolumeIncreaseRate() + ", RSI : " + rsi + ", " + tradeDirection);
+//            slackMessage.sendRsi(CoinSymbols.SOLUSDT + " explosionRate : " + result.getTradeVolumeIncreaseRate() + ", RSI : " + rsi + ", " + tradeDirection);
         }
     }
 
@@ -89,7 +89,7 @@ public class TradeHistorySchdule {
 
         BigDecimal myUsdtAvailableBalance = myUsdtAsset.getMaxWithdrawAmount();
 
-        List<TradeHistory> tradeHistories = tradeHistoryService.getTradeListByBinance("APTUSDT");
+        List<TradeHistory> tradeHistories = tradeHistoryService.getTradeListByBinance("SOLUSDT", 3);
 
         TradeHistory lastTradeHistory = tradeHistories.get(tradeHistories.size()-1);
         BigDecimal lastTradePrice = lastTradeHistory.getPrice();
@@ -97,7 +97,7 @@ public class TradeHistorySchdule {
         System.out.println("lastPrice : "  + lastTradePrice);
         System.out.println("myUsdtAvailableBalance : " + myUsdtAvailableBalance);
 
-        BigDecimal tradeQuantity = myUsdtAvailableBalance.divide(lastTradePrice, 1, RoundingMode.DOWN);
+        BigDecimal tradeQuantity = myUsdtAvailableBalance.divide(lastTradePrice, 0, RoundingMode.DOWN);
         System.out.println(tradeQuantity);
 
         if (tradeQuantity.compareTo(BigDecimal.valueOf(0.5)) < 0) {
@@ -105,44 +105,41 @@ public class TradeHistorySchdule {
         }
 
         if (direction.equalsIgnoreCase("LONG")) {
-            syncRequestClient.changeInitialLeverage(tradePair, 20);
+            syncRequestClient.changeInitialLeverage(tradePair, 10);
             Order orderInfo = syncRequestClient.postOrder(
                     tradePair,
                     OrderSide.BUY,
                     PositionSide.BOTH,
-                    OrderType.LIMIT,
-                    TimeInForce.GTC,
+                    OrderType.MARKET,
+                    null,
                     tradeQuantity.toString(),
-                    lastTradePrice.toString(),
+                    null,
                     null,
                     null,
                     null,
                     null,
                     NewOrderRespType.RESULT);
             System.out.println(orderInfo);
-//            setOrderInfo(orderInfo);
+            tradeHistoryService.setTradeTransaction(orderInfo);
 
         } else if (direction.equalsIgnoreCase("SHORT")) {
-            syncRequestClient.changeInitialLeverage(tradePair, 20);
+            syncRequestClient.changeInitialLeverage(tradePair, 10);
             Order orderInfo = syncRequestClient.postOrder(
                     tradePair,
                     OrderSide.SELL,
                     PositionSide.BOTH,
-                    OrderType.LIMIT,
-                    TimeInForce.GTC,
+                    OrderType.MARKET,
+                    null,
                     tradeQuantity.toString(),
-                    lastTradePrice.toString(),
+                    null,
                     null,
                     null,
                     null,
                     null,
                     NewOrderRespType.RESULT);
             System.out.println(orderInfo);
-//            setOrderInfo(orderInfo);
+            slackMessage.sendMsg(orderInfo.toString());
+            tradeHistoryService.setTradeTransaction(orderInfo);
         }
     }
-
-//    public int setOrderInfo(Order orderInfo) {
-//        return tradeHistoryService.setOrderInfo(orderInfo);
-//    }
 }
